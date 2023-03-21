@@ -1,0 +1,8 @@
+package com.ibanvalidator.data.models
+
+import com.google.gson.annotations.SerializedName
+
+data class ValidateIbanResult(
+    @SerializedName("valid")
+    val isValid: Boolean
+)

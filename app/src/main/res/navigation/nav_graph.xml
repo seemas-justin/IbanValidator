@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.ibanvalidator.IbanValidatorFragment"
+        android:name="com.ibanvalidator.presentation.IbanValidatorFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_ibanvalidator">
 

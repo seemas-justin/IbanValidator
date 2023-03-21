@@ -11,4 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="enter_iban_number">Enter Iban number</string>
     <string name="validate">Validate</string>
+    <string name="iban_validation_success">Validation Success</string>
+    <string name="iban_validtion_failed">Validation Failed</string>
 </resources>

@@ -10,9 +10,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.IbanValidator"
+        android:name=".IbanValidatorApp"
         tools:targetApi="31">
         <activity
-            android:name=".IbanValidatorActivity"
+            android:name=".presentation.IbanValidatorActivity"
             android:exported="true"
             android:theme="@style/Theme.IbanValidator.NoActionBar">
             <intent-filter>
