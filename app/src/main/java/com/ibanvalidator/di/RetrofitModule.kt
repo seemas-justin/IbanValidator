@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ibanvalidator.core.Constants
 import com.ibanvalidator.data.IbanRemoteDataSource
+import com.ibanvalidator.data.IbanValidatorRepositoryImpl
+import com.ibanvalidator.domain.IbanValidatorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,5 +36,11 @@ object RetrofitModule {
     @Provides
     fun provideIbanValidatorRemoteDataSource(retrofit: Retrofit.Builder): IbanRemoteDataSource {
         return retrofit.build().create(IbanRemoteDataSource::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesIbanRepository(ibanRemoteDataSource: IbanRemoteDataSource):IbanValidatorRepository {
+        return IbanValidatorRepositoryImpl(ibanRemoteDataSource)
     }
 }
