@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ValidateIbanResult(
     @SerializedName("valid")
-    val isValid: Boolean
+    val isValid: Boolean,
+    @SerializedName("message")
+    val message: String?
 )

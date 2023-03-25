@@ -15,9 +15,18 @@
         android:layout_marginEnd="50dp"
         android:ems="34"
         android:hint="@string/enter_iban_number"
+        android:text="AE020260001015705341701"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_validation_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIban" />
 
     <Button
         android:id="@+id/button_validate"

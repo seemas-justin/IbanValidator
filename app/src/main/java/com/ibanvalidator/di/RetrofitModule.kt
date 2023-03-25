@@ -3,13 +3,16 @@ package com.ibanvalidator.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ibanvalidator.core.Constants
-import com.ibanvalidator.data.IbanRemoteDataSource
 import com.ibanvalidator.data.IbanValidatorRepositoryImpl
+import com.ibanvalidator.data.api.IbanValidationService
 import com.ibanvalidator.domain.IbanValidatorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,26 +24,51 @@ object RetrofitModule {
     @Singleton
     @Provides
     fun providesGson(): Gson {
-        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+        return GsonBuilder().create()
     }
 
     @Singleton
     @Provides
-    fun providesRetrofit(gson: Gson): Retrofit.Builder {
+    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.BASEURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     @Singleton
     @Provides
-    fun provideIbanValidatorRemoteDataSource(retrofit: Retrofit.Builder): IbanRemoteDataSource {
-        return retrofit.build().create(IbanRemoteDataSource::class.java)
+    fun providesIbanRepository(ibanValidationService: IbanValidationService, gson: Gson):IbanValidatorRepository {
+        return IbanValidatorRepositoryImpl(ibanValidationService, gson)
+    }
+    @Singleton
+    @Provides
+    fun providesIbanApiService(retrofit: Retrofit) : IbanValidationService{
+        return retrofit.create(IbanValidationService::class.java)
     }
 
     @Singleton
     @Provides
-    fun providesIbanRepository(ibanRemoteDataSource: IbanRemoteDataSource):IbanValidatorRepository {
-        return IbanValidatorRepositoryImpl(ibanRemoteDataSource)
+    fun providesHttpClient(): OkHttpClient{
+       return OkHttpClient.Builder()
+           .addInterceptor(HeaderInterceptor())
+           .build()
     }
+
+
 }
+
+class HeaderInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response = chain.run {
+         proceed(
+            request()
+                .newBuilder()
+                .addHeader("apikey", Constants.API_KEY)
+                .build()
+        )
+
+    }
+
+}
+
