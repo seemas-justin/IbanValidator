@@ -2,6 +2,7 @@ package com.ibanvalidator.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ibanvalidator.BuildConfig
 import com.ibanvalidator.core.Constants
 import com.ibanvalidator.data.IbanValidatorRepositoryImpl
 import com.ibanvalidator.data.api.IbanValidationService
@@ -64,7 +65,7 @@ class HeaderInterceptor : Interceptor {
          proceed(
             request()
                 .newBuilder()
-                .addHeader("apikey", Constants.API_KEY)
+                .addHeader("apikey", BuildConfig.API_KEY)
                 .build()
         )
 
